@@ -60,4 +60,6 @@ eos
 
 puts two_days
 
+puts current
+
 puts "did it work? ", two_days.split == current.split
