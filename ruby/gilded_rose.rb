@@ -35,15 +35,17 @@ class GildedRose
   end
 
   def update_quality_when_sell_in_less_than_zero(item)
-    if item.name != "Aged Brie"
-      if item.name != "Backstage passes to a TAFKAL80ETC concert"
-        decrease_quality(item)
-      else
-        item.quality = item.quality - item.quality
-      end
-    else
+    if item.name == "Aged Brie"
       increase_quality(item)
+      return
     end
+
+    if item.name == "Backstage passes to a TAFKAL80ETC concert"
+      item.quality = 0
+      return
+    end
+
+    decrease_quality(item)
   end
 
   def update_sell_in(item)
@@ -54,10 +56,10 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        decrease_quality(item)
-      else
+      if item.name == "Aged Brie" or item.name == "Backstage passes to a TAFKAL80ETC concert"
         update_quality_of_brie_and_backstage(item)
+      else
+        decrease_quality(item)
       end
 
       update_sell_in(item)
