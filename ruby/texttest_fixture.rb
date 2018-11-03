@@ -13,7 +13,7 @@ items = [
   Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=49),
   Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
   # This Conjured item does not work properly yet
-  Item.new(name="Conjured Mana Cake", sell_in=3, quality=6), # <-- :O
+  # Item.new(name="Conjured Mana Cake", sell_in=3, quality=6), # <-- :O
 ]
 
 days = 2
@@ -21,13 +21,43 @@ if ARGV.size > 0
   days = ARGV[0].to_i + 1
 end
 
+current = ""
+
 gilded_rose = GildedRose.new items
 (0...days).each do |day|
-  puts "-------- day #{day} --------"
-  puts "name, sellIn, quality"
+  current << "\n-------- day #{day} --------\n"
+  current << "name, sellIn, quality\n"
   items.each do |item|
-    puts item
+    current << item.to_s + "\n"
   end
-  puts ""
+  current << "\n"
   gilded_rose.update_quality
 end
+
+two_days = <<-eos
+-------- day 0 --------
+name, sellIn, quality
++5 Dexterity Vest, 10, 20
+Aged Brie, 2, 0
+Elixir of the Mongoose, 5, 7
+Sulfuras, Hand of Ragnaros, 0, 80
+Sulfuras, Hand of Ragnaros, -1, 80
+Backstage passes to a TAFKAL80ETC concert, 15, 20
+Backstage passes to a TAFKAL80ETC concert, 10, 49
+Backstage passes to a TAFKAL80ETC concert, 5, 49
+
+-------- day 1 --------
+name, sellIn, quality
++5 Dexterity Vest, 9, 19
+Aged Brie, 1, 1
+Elixir of the Mongoose, 4, 6
+Sulfuras, Hand of Ragnaros, 0, 80
+Sulfuras, Hand of Ragnaros, -1, 80
+Backstage passes to a TAFKAL80ETC concert, 14, 21
+Backstage passes to a TAFKAL80ETC concert, 9, 50
+Backstage passes to a TAFKAL80ETC concert, 4, 50
+eos
+
+puts two_days
+
+puts "did it work? ", two_days.split == current.split
