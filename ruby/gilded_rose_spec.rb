@@ -24,4 +24,25 @@ describe GildedRose do
     end
   end
 
+
+  describe "#decrease_quality" do
+    it "decrease quality of item if greater than 0" do
+      items = [Item.new("foo", 0, 1)]
+      GildedRose.new(items).decrease_quality(items[0])
+      expect(items[0].quality).to eq 0
+    end
+
+    it "does nothing if 0 or less" do
+      items = [Item.new("foo", 0, 0)]
+      GildedRose.new(items).decrease_quality(items[0])
+      expect(items[0].quality).to eq 0
+    end
+
+    it "does nothing if legendary" do
+      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 15)]
+      GildedRose.new(items).decrease_quality(items[0])
+      expect(items[0].quality).to eq 15
+    end
+  end
+
 end
