@@ -4,6 +4,12 @@ class GildedRose
     @items = items
   end
 
+  def increase_quality(item)
+    if item.quality < 50
+     item.quality = item.quality + 1
+    end
+  end
+
   def update_quality_of_non_brie_non_backstage(item)
     if item.quality > 0
       if item.name != "Sulfuras, Hand of Ragnaros"
@@ -13,24 +19,18 @@ class GildedRose
   end
 
   def update_quality_of_brie_and_backstage(item)
-    if item.quality < 50
-      item.quality = item.quality + 1
-      if item.name == "Backstage passes to a TAFKAL80ETC concert"
-        update_quality_of_backstage(item)
-      end
+    increase_quality(item)
+    if item.name == "Backstage passes to a TAFKAL80ETC concert"
+      update_quality_of_backstage(item)
     end
   end
 
   def update_quality_of_backstage(item)
     if item.sell_in < 11
-      if item.quality < 50
-        item.quality = item.quality + 1
-      end
+      increase_quality(item)
     end
     if item.sell_in < 6
-      if item.quality < 50
-        item.quality = item.quality + 1
-      end
+      increase_quality(item)
     end
   end
 
@@ -46,9 +46,7 @@ class GildedRose
         item.quality = item.quality - item.quality
       end
     else
-      if item.quality < 50
-        item.quality = item.quality + 1
-      end
+      increase_quality(item)
     end
   end
 
