@@ -51,9 +51,7 @@ class ItemUpdater
 
   def decrease_quality
     if quality > 0
-      if name != "Sulfuras, Hand of Ragnaros"
-        self.quality = self.quality - 1
-      end
+      self.quality = self.quality - 1
     end
   end
 
@@ -80,12 +78,14 @@ class ItemUpdater
   end
 
   def update_sell_in
-    if name != "Sulfuras, Hand of Ragnaros"
-      self.sell_in = self.sell_in - 1
-    end
+    self.sell_in = self.sell_in - 1
   end
 
   def update_quality
+    if name == "Sulfuras, Hand of Ragnaros"
+      return
+    end
+
     update_sell_in
 
     if name == "Aged Brie"
