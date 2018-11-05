@@ -45,7 +45,7 @@ class ItemUpdaterFactory
   end
 end
 
-module Updaterable
+module Updater
   attr_accessor :item
 
   def initialize (item)
@@ -86,7 +86,7 @@ module Updaterable
 end
 
 class ItemUpdater
-  include Updaterable
+  include Updater
   attr_reader :name
 
   def update_quality
@@ -99,7 +99,7 @@ class ItemUpdater
 end
 
 class LegendaryItemUpdater
-  include Updaterable
+  include Updater
 
   def update_sell_in
   end
@@ -109,7 +109,7 @@ class LegendaryItemUpdater
 end
 
 class AgedBrieItemUpdater
-  include Updaterable
+  include Updater
 
   def update_quality
     increase_quality
@@ -121,7 +121,7 @@ class AgedBrieItemUpdater
 end
 
 class BackstagePassesItemUpdater
-  include Updaterable
+  include Updater
 
   def update_quality
     increase_quality
@@ -139,7 +139,7 @@ class BackstagePassesItemUpdater
 end
 
 class ConjuredItemUpdater
-  include Updaterable
+  include Updater
 
   def update_quality
     2.times { decrease_quality }
