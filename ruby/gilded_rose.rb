@@ -7,7 +7,7 @@ class GildedRose
   def update_quality()
     @items.each do |item|
       updater = ItemUpdater.new(item)
-      item = updater.update_item
+      item = updater.update_quality
     end
   end
 end
@@ -26,32 +26,34 @@ class Item
   end
 end
 
+# ItemUpdater and Item are very coupled?
+# Maybe okay since the rules force us...
 class ItemUpdater
-  attr_accessor :item, :name, :sell_in, :quality
+  attr_accessor :item
+  attr_reader :name
+
   def initialize(item)
     @item = item
     @name = item.name
-    @sell_in = item.sell_in
-    @quality = item.quality
   end
 
-  def update_item
-    update_quality
+  def sell_in
+    item.sell_in
+  end
 
-    item.quality = quality
-    item.sell_in = sell_in
-    item
+  def quality
+    item.quality
   end
 
   def increase_quality
     if quality < 50
-     self.quality = self.quality + 1
+     item.quality = item.quality + 1
     end
   end
 
   def decrease_quality
     if quality > 0
-      self.quality = self.quality - 1
+      item.quality = item.quality - 1
     end
   end
 
@@ -73,12 +75,12 @@ class ItemUpdater
       increase_quality
     end
     if sell_in < 0
-      self.quality = 0
+      item.quality = 0
     end
   end
 
   def update_sell_in
-    self.sell_in = self.sell_in - 1
+    item.sell_in = item.sell_in - 1
   end
 
   def update_quality
@@ -104,5 +106,7 @@ class ItemUpdater
         decrease_quality
       end
     end
+
+    item
   end
 end
