@@ -31,7 +31,11 @@ class ItemUpdaterFactory
     if item.name == "Sulfuras, Hand of Ragnaros"
         LegendaryItemUpdater.new(item)
     else
-      ItemUpdater.new(item)
+      if item.name == "Aged Brie"
+        AgedBrieItemUpdater.new(item)
+      else
+        ItemUpdater.new(item)
+      end
     end
   end
 end
@@ -64,14 +68,6 @@ class ItemUpdater
   def decrease_quality
     if quality > 0
       item.quality = item.quality - 1
-    end
-  end
-
-  def update_quality_of_brie
-    increase_quality
-
-    if sell_in < 0
-      increase_quality
     end
   end
 
@@ -125,7 +121,42 @@ class LegendaryItemUpdater
   end
 
   def update_quality
-    puts 'here'
     item
+  end
+end
+
+class AgedBrieItemUpdater
+  attr_accessor :item
+
+  def initialize(item)
+    @item = item
+  end
+
+  def sell_in
+    item.sell_in
+  end
+
+  def quality
+    item.quality
+  end
+
+  def increase_quality
+    if quality < 50
+     item.quality = item.quality + 1
+    end
+  end
+
+  def update_sell_in
+    item.sell_in = item.sell_in - 1
+  end
+
+  def update_quality
+    update_sell_in
+
+    increase_quality
+
+    if sell_in < 0
+      increase_quality
+    end
   end
 end
