@@ -6,7 +6,7 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      updater = ItemUpdater.new(item)
+      updater = ItemUpdaterFactory.create_updater_for(item)
       item = updater.update_quality
     end
   end
@@ -23,6 +23,12 @@ class Item
 
   def to_s()
     "#{@name}, #{@sell_in}, #{@quality}"
+  end
+end
+
+class ItemUpdaterFactory
+  def self.create_updater_for(item)
+    ItemUpdater.new(item)
   end
 end
 
