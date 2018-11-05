@@ -28,7 +28,11 @@ end
 
 class ItemUpdaterFactory
   def self.create_updater_for(item)
-    ItemUpdater.new(item)
+    if item.name == "Sulfuras, Hand of Ragnaros"
+        LegendaryItemUpdater.new(item)
+    else
+      ItemUpdater.new(item)
+    end
   end
 end
 
@@ -90,10 +94,6 @@ class ItemUpdater
   end
 
   def update_quality
-    if name == "Sulfuras, Hand of Ragnaros"
-      return
-    end
-
     update_sell_in
 
     if name == "Aged Brie"
@@ -113,6 +113,19 @@ class ItemUpdater
       end
     end
 
+    item
+  end
+end
+
+class LegendaryItemUpdater
+  attr_reader :item
+
+  def initialize(item)
+    @item = item
+  end
+
+  def update_quality
+    puts 'here'
     item
   end
 end
