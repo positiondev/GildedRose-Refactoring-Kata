@@ -7,7 +7,7 @@ class GildedRose
   def update_quality()
     @items.each do |item|
       updater = ItemUpdaterFactory.create_updater_for(item)
-      item = updater.update_quality
+      item = updater.update_item
     end
   end
 end
@@ -40,16 +40,8 @@ class ItemUpdaterFactory
   end
 end
 
-# ItemUpdater and Item are very coupled?
-# Maybe okay since the rules force us...
-class ItemUpdater
+module Updaterable
   attr_accessor :item
-  attr_reader :name
-
-  def initialize(item)
-    @item = item
-    @name = item.name
-  end
 
   def sell_in
     item.sell_in
@@ -71,6 +63,28 @@ class ItemUpdater
     end
   end
 
+  def update_sell_in
+    item.sell_in = item.sell_in - 1
+  end
+
+  def update_item
+    update_sell_in
+
+    update_quality
+  end
+end
+
+# ItemUpdater and Item are very coupled?
+# Maybe okay since the rules force us...
+class ItemUpdater
+  include Updaterable
+  attr_reader :name
+
+  def initialize(item)
+    @item = item
+    @name = item.name
+  end
+
   def update_quality_of_backstage
     increase_quality
 
@@ -85,23 +99,12 @@ class ItemUpdater
     end
   end
 
-  def update_sell_in
-    item.sell_in = item.sell_in - 1
-  end
-
   def update_quality
-    update_sell_in
-
-    if name == "Aged Brie"
-      update_quality_of_brie
-    end
-
     if name == "Backstage passes to a TAFKAL80ETC concert"
       update_quality_of_backstage
     end
 
-    if name !="Aged Brie" and
-        name != "Backstage passes to a TAFKAL80ETC concert"
+    if name != "Backstage passes to a TAFKAL80ETC concert"
       decrease_quality
 
       if sell_in < 0
@@ -114,10 +117,13 @@ class ItemUpdater
 end
 
 class LegendaryItemUpdater
-  attr_reader :item
+  include Updaterable
 
   def initialize(item)
     @item = item
+  end
+
+  def update_sell_in
   end
 
   def update_quality
@@ -126,33 +132,13 @@ class LegendaryItemUpdater
 end
 
 class AgedBrieItemUpdater
-  attr_accessor :item
+  include Updaterable
 
   def initialize(item)
     @item = item
   end
 
-  def sell_in
-    item.sell_in
-  end
-
-  def quality
-    item.quality
-  end
-
-  def increase_quality
-    if quality < 50
-     item.quality = item.quality + 1
-    end
-  end
-
-  def update_sell_in
-    item.sell_in = item.sell_in - 1
-  end
-
   def update_quality
-    update_sell_in
-
     increase_quality
 
     if sell_in < 0
