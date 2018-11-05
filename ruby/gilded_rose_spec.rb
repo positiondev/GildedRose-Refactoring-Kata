@@ -9,39 +9,36 @@ describe GildedRose do
       expect(items[0].name).to eq "foo"
     end
   end
+end
+
+describe ItemUpdater do
+  let(:item) { Item.new("foo", 0, 5) }
+  let(:updater) { ItemUpdater.new(item) }
 
   describe "#increase_quality" do
+
     it "increases quality of item if less than 50" do
-      items = [Item.new("foo", 0, 0)]
-      GildedRose.new(items).increase_quality(items[0])
-      expect(items[0].quality).to eq 1
+      updater.increase_quality
+      expect(item.quality).to eq 6
     end
 
     it "does nothing if 50 or more" do
-      items = [Item.new("foo", 0, 80)]
-      GildedRose.new(items).increase_quality(items[0])
-      expect(items[0].quality).to eq 80
+      updater.item.quality = 80
+      updater.increase_quality
+      expect(item.quality).to eq 80
     end
   end
 
-
   describe "#decrease_quality" do
     it "decrease quality of item if greater than 0" do
-      items = [Item.new("foo", 0, 1)]
-      GildedRose.new(items).decrease_quality(items[0])
-      expect(items[0].quality).to eq 0
+      updater.decrease_quality
+      expect(item.quality).to eq 4
     end
 
     it "does nothing if 0 or less" do
-      items = [Item.new("foo", 0, 0)]
-      GildedRose.new(items).decrease_quality(items[0])
-      expect(items[0].quality).to eq 0
-    end
-
-    it "does nothing if legendary" do
-      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 15)]
-      GildedRose.new(items).decrease_quality(items[0])
-      expect(items[0].quality).to eq 15
+      updater.item.quality = 0
+      updater.decrease_quality
+      expect(item.quality).to eq 0
     end
   end
 
