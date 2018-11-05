@@ -28,19 +28,11 @@ end
 
 class ItemUpdaterFactory
   def self.create_updater_for(item)
-    if item.name == "Sulfuras, Hand of Ragnaros"
-        LegendaryItemUpdater.new(item)
-    else
-      if item.name == "Aged Brie"
-        AgedBrieItemUpdater.new(item)
-      else
-        if item.name == "Backstage passes to a TAFKAL80ETC concert"
-          BackstagePassesItemUpdater.new(item)
-        else
-          ItemUpdater.new(item)
-        end
-      end
-    end
+    { "Sulfuras, Hand of Ragnaros" => LegendaryItemUpdater.new(item),
+      "Aged Brie" => AgedBrieItemUpdater.new(item),
+      "Backstage passes to a TAFKAL80ETC concert" =>
+        BackstagePassesItemUpdater.new(item)
+    }.fetch(item.name, ItemUpdater.new(item))
   end
 end
 
