@@ -34,7 +34,11 @@ class ItemUpdaterFactory
       if item.name == "Aged Brie"
         AgedBrieItemUpdater.new(item)
       else
-        ItemUpdater.new(item)
+        if item.name == "Backstage passes to a TAFKAL80ETC concert"
+          BackstagePassesItemUpdater.new(item)
+        else
+          ItemUpdater.new(item)
+        end
       end
     end
   end
@@ -42,6 +46,10 @@ end
 
 module Updaterable
   attr_accessor :item
+
+  def initialize (item)
+    @item = item
+  end
 
   def sell_in
     item.sell_in
@@ -71,6 +79,8 @@ module Updaterable
     update_sell_in
 
     update_quality
+
+    item
   end
 end
 
@@ -80,12 +90,41 @@ class ItemUpdater
   include Updaterable
   attr_reader :name
 
-  def initialize(item)
-    @item = item
-    @name = item.name
+  def update_quality
+    decrease_quality
+
+    if sell_in < 0
+      decrease_quality
+    end
+  end
+end
+
+class LegendaryItemUpdater
+  include Updaterable
+
+  def update_sell_in
   end
 
-  def update_quality_of_backstage
+  def update_quality
+  end
+end
+
+class AgedBrieItemUpdater
+  include Updaterable
+
+  def update_quality
+    increase_quality
+
+    if sell_in < 0
+      increase_quality
+    end
+  end
+end
+
+class BackstagePassesItemUpdater
+  include Updaterable
+
+  def update_quality
     increase_quality
 
     if sell_in < 11
@@ -96,53 +135,6 @@ class ItemUpdater
     end
     if sell_in < 0
       item.quality = 0
-    end
-  end
-
-  def update_quality
-    if name == "Backstage passes to a TAFKAL80ETC concert"
-      update_quality_of_backstage
-    end
-
-    if name != "Backstage passes to a TAFKAL80ETC concert"
-      decrease_quality
-
-      if sell_in < 0
-        decrease_quality
-      end
-    end
-
-    item
-  end
-end
-
-class LegendaryItemUpdater
-  include Updaterable
-
-  def initialize(item)
-    @item = item
-  end
-
-  def update_sell_in
-  end
-
-  def update_quality
-    item
-  end
-end
-
-class AgedBrieItemUpdater
-  include Updaterable
-
-  def initialize(item)
-    @item = item
-  end
-
-  def update_quality
-    increase_quality
-
-    if sell_in < 0
-      increase_quality
     end
   end
 end
