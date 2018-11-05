@@ -31,8 +31,17 @@ class ItemUpdaterFactory
     { "Sulfuras, Hand of Ragnaros" => LegendaryItemUpdater.new(item),
       "Aged Brie" => AgedBrieItemUpdater.new(item),
       "Backstage passes to a TAFKAL80ETC concert" =>
-        BackstagePassesItemUpdater.new(item)
-    }.fetch(item.name, ItemUpdater.new(item))
+        BackstagePassesItemUpdater.new(item),
+      "Conjured" => ConjuredItemUpdater.new(item)
+    }.fetch(lookup_name(item), ItemUpdater.new(item))
+  end
+
+  def self.lookup_name(item)
+    if item.name.include?("Conjured")
+      "Conjured"
+    else
+      item.name
+    end
   end
 end
 
@@ -76,8 +85,6 @@ module Updaterable
   end
 end
 
-# ItemUpdater and Item are very coupled?
-# Maybe okay since the rules force us...
 class ItemUpdater
   include Updaterable
   attr_reader :name
@@ -127,6 +134,18 @@ class BackstagePassesItemUpdater
     end
     if sell_in < 0
       item.quality = 0
+    end
+  end
+end
+
+class ConjuredItemUpdater
+  include Updaterable
+
+  def update_quality
+    2.times { decrease_quality }
+
+    if sell_in < 0
+      2.times { decrease_quality }
     end
   end
 end

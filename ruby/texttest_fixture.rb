@@ -12,8 +12,7 @@ items = [
   Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=15, quality=20),
   Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=49),
   Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
-  # This Conjured item does not work properly yet
-  # Item.new(name="Conjured Mana Cake", sell_in=3, quality=6), # <-- :O
+  Item.new(name="Conjured Mana Cake", sell_in=3, quality=6)
 ]
 
 days = 2
@@ -45,6 +44,7 @@ Sulfuras, Hand of Ragnaros, -1, 80
 Backstage passes to a TAFKAL80ETC concert, 15, 20
 Backstage passes to a TAFKAL80ETC concert, 10, 49
 Backstage passes to a TAFKAL80ETC concert, 5, 49
+Conjured Mana Cake, 3, 6
 
 -------- day 1 --------
 name, sellIn, quality
@@ -56,6 +56,7 @@ Sulfuras, Hand of Ragnaros, -1, 80
 Backstage passes to a TAFKAL80ETC concert, 14, 21
 Backstage passes to a TAFKAL80ETC concert, 9, 50
 Backstage passes to a TAFKAL80ETC concert, 4, 50
+Conjured Mana Cake, 2, 4
 eos
 
 
@@ -70,6 +71,7 @@ Sulfuras, Hand of Ragnaros, -1, 80
 Backstage passes to a TAFKAL80ETC concert, 15, 20
 Backstage passes to a TAFKAL80ETC concert, 10, 49
 Backstage passes to a TAFKAL80ETC concert, 5, 49
+Conjured Mana Cake, 3, 6
 
 
 -------- day 1 --------
@@ -82,6 +84,7 @@ Sulfuras, Hand of Ragnaros, -1, 80
 Backstage passes to a TAFKAL80ETC concert, 14, 21
 Backstage passes to a TAFKAL80ETC concert, 9, 50
 Backstage passes to a TAFKAL80ETC concert, 4, 50
+Conjured Mana Cake, 2, 4
 
 
 -------- day 2 --------
@@ -94,6 +97,7 @@ Sulfuras, Hand of Ragnaros, -1, 80
 Backstage passes to a TAFKAL80ETC concert, 13, 22
 Backstage passes to a TAFKAL80ETC concert, 8, 50
 Backstage passes to a TAFKAL80ETC concert, 3, 50
+Conjured Mana Cake, 1, 2
 eos
 
 puts two_days

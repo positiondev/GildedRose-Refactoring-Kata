@@ -11,6 +11,24 @@ describe GildedRose do
   end
 end
 
+describe ConjuredItemUpdater do
+  let(:item) { Item.new("Conjured foo", 5, 5) }
+  let(:updater) { ConjuredItemUpdater.new(item) }
+
+  describe "#update_quality" do
+    it "degrades by two before sell-in date" do
+      updater.update_quality
+      expect(item.quality).to eq 3
+    end
+
+    it "degrades by four after sell-in date" do
+      updater.item.sell_in = -1
+      updater.update_quality
+      expect(item.quality).to eq 1
+    end
+  end
+end
+
 describe ItemUpdater do
   let(:item) { Item.new("foo", 0, 5) }
   let(:updater) { ItemUpdater.new(item) }
